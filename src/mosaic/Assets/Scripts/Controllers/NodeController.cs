@@ -6,36 +6,25 @@ using Mosaic.Models;
 using Mosaic.Infrastructure;
 
 namespace Mosaic.Controllers {
-	public class NodeController : IRepository<Node>{
+	public class NodeController {
 
-		public void Render(Node Node){
-			GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			cube.transform.position = Node.Position;
-			cube.transform.RotateAround (new Vector3 (0, 0, 0), new Vector3 (0.5F, 0.5F, 0), 20.2F);
+		private readonly IRepository<Node> nodeRepository;
+		private readonly IRenderer<Node> nodeRenderer;
+
+		public NodeController(IRepository<Node> NodeRepository, IRenderer<Node> NodeRenderer){
+			this.nodeRepository = NodeRepository;
+			this.nodeRenderer = NodeRenderer;
 		}
 
-		#region IRepository implementation
-
-		public IEnumerable<Node> GetAll ()
-		{
-			throw new NotImplementedException ();
+		public void RenderNodes(){
+			foreach (var node in nodeRepository.GetAll()) {
+				this.nodeRenderer.Render(node);
+			}
 		}
 
-		public void Add ()
-		{
-			throw new NotImplementedException ();
+		public void AddNode(Node node){
+			nodeRepository.Add (node);
+			nodeRepository.Commit ();
 		}
-
-		public void Remove ()
-		{
-			throw new NotImplementedException ();
-		}
-
-		public void Update ()
-		{
-			throw new NotImplementedException ();
-		}
-
-		#endregion
 	}
 }
