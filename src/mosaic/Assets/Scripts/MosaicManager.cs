@@ -15,10 +15,14 @@ namespace Mosaic {
 
 			nodeController = new NodeController (nodeRepository,nodeRenderer);
 
-			Node node = new Node ();
-			node.Position = new Vector3 (0, 0.5F, 0);
+			int mockNodes = 100;
 
-			nodeController.AddNode (node);
+			for(int i = 0; i+1 <= mockNodes; i++){
+				Node node = new Node ();
+				node.Position = new Vector3 (i*i%29, i*i%13, i*i%67);
+				nodeController.AddNode (node);
+			}
+
 
 			nodeController.RenderNodes ();
 		}
